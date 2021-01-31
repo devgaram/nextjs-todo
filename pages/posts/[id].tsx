@@ -1,8 +1,9 @@
+import { GetStaticProps, GetStaticPaths } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 import Date from "../../components/date";
-import { getAllPostIds, getPostData } from "../../lib/posts";
+import { getAllPostIds, getPostData, PostData } from "../../lib/posts";
 import utilStyles from "../../styles/utils.module.css";
 
 /**
@@ -11,7 +12,7 @@ import utilStyles from "../../styles/utils.module.css";
 
  * id: ['a', 'b', 'c'] --> /posts/a/b/c params.id 는 배열
  */
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getAllPostIds();
   return {
     paths,
@@ -32,18 +33,23 @@ export async function getStaticPaths() {
      */
     fallback: false, // false면 없는 path일 때 404 페이지 리턴
   };
-}
+};
 
-export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const postData = await getPostData(params.id as string);
+
   return {
     props: {
       postData,
     },
   };
+};
+
+interface PostProps {
+  postData: PostData;
 }
 
-export default function Post({ postData }) {
+function Post({ postData }: PostProps) {
   // fallback: true 일 때
   // const router = useRouter();
 
@@ -64,3 +70,5 @@ export default function Post({ postData }) {
     </Layout>
   );
 }
+
+export default Post;
