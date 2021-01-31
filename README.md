@@ -1,1 +1,9 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+# TODO LIST
+
+기술 스택
+- NextJS
+- Typescript
+- Mobx
+- Mobx-state-tree
+- Styled-component
+- Storybook
